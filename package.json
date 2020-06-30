@@ -1,0 +1,18 @@
+{
+  "name": "AliceZero",
+  "version": "1.0.0",
+  "description": "AliceZero",
+  "main": "alice.js",
+  "author": "Double",
+  "scripts": {
+    "start": "node alice.js"
+  },
+  "dependencies": {
+    "discord.js": "^11.6.4",
+    "discord.js-commando": "^0.10.0",
+    "ffmpeg-static": "^4.2.4",
+    "master": "0.0.14",
+    "opusscript": "0.0.7",
+    "winston": "^3.2.1"
+  }
+}

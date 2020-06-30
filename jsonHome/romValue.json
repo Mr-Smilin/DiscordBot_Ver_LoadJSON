@@ -1,0 +1,28 @@
+{
+  "beforeText": [
+    {
+      "id": 0,
+      "name": "系統指令前綴字",
+      "value": "~",
+      "canEdit": true
+    },
+    {
+      "id": 1,
+      "name": "間隔符",
+      "value": ";",
+      "canEdit": false
+    },
+    {
+      "id": 2,
+      "name": "修改觸發指令(現在這個)",
+      "value": "tSet",
+      "canEdit": true
+    },
+    {
+      "id": 3,
+      "name": "攻略組表單查詢",
+      "value": "攻略組",
+      "canEdit": true
+    }
+  ]
+}
