@@ -92,13 +92,13 @@ function SelectFunctionFromBeforeText(msg, cmd, args = [""]) {
   }
 
   switch (temp) {
-    case 0:
+    case 0: //系統指令
       DoBaseFunction(msg, cmd[1], args);
       break;
-    case 2:
+    case 2: //修改觸發句功能
       DoEditRomValue(msg, cmd[1], args);
       break;
-    case 3:
+    case 3: //攻略組查表
       DoGasFileGet(msg, cmd[1], args);
       break;
   }
@@ -214,7 +214,61 @@ function DoEditRomValue(msg, cmd, args) {
 
 //google API 查表 & 寫表
 function DoGasFileGet(msg, cmd, args) {
+  switch (cmd) {
+    case '轉生點':  //轉生點查詢
+      if (args[0] === undefined || args[0] === '' || args[1] === '' || args[0] > 100 || args[0] < 1 || args[1] > 10 || args[1] < 1 || isNaN(args[0]) === true || (isNaN(args[1]) === true && args[1] !== undefined)) {
+        msgs = '```轉生點查詢\n語法:攻略組 轉生點 {等級} [範圍]\n\n從選擇等級開始查詢，根據範圍返還查詢數量\n\n等級不可低於1，不可大於100\n範圍不可低於1，不可大於10(預設5)```'
+        msg.channel.send(msgs);
+      }
+      else {
+        if (args[1] === undefined) {
+          args[1] = 5;
+        }
+        gasApi.getLevel(args[0], args[1], function (data) {
+          getLevel(args[0], data, function (msgs) {
+            msg.channel.send(msgs);
+          })
+        })
+      }
 
+      break;
+    case '技能':
+      gasApi.getSkill(args[1], function (msgs) {
+        msg.channel.send(msgs);
+      });
+
+      break;
+    case '黑特':
+      gasApi.getBlackList(function (msgs) {
+        msg.channel.send(msgs);
+      });
+
+      break;
+  }
+}
+
+//攻略組轉生點，資料處理
+function getLevel(level, data, callback) {
+  let j = parseFloat(level);
+  let msgs = '```';
+  for (i = 0; i <= data.length - 1; i++) {
+    if (data[i] !== undefined) {
+      msgs = msgs + `等級${paddingLeft((i + j), 4)} | 等級所需經驗${paddingLeft(data[i].lat, 7)} | 累積轉生點${paddingLeft(data[i].lng, 3)} \n`;
+    }
+  }
+  msgs = msgs + '```';
+  if (msgs === '``````') {
+    msgs = '你能不能正常打字?';
+  }
+  callback(msgs);
+}
+
+//字串補空白
+function paddingLeft(str, lenght) {
+  if (str.length >= lenght)
+    return str;
+  else
+    return paddingLeft(" " + str, lenght);
 }
 
 //更新文件
